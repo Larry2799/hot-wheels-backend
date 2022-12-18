@@ -6,7 +6,9 @@ const {
   createOrder,
 } = require("../controllers/orderController/index");
 
+
 router.get("/", verifyTokenMiddleware, getUserOrders);
 router.post("/", verifyTokenMiddleware, createOrder);
+
 
 module.exports = router;

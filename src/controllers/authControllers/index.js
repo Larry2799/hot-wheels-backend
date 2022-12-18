@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const registerController = async (req, res, next) => {
-  const { companyName, email, password, address } = req.body;
+  const { companyName, email, password, address, role } = req.body;
 
   try {
     const salt = await bcrypt.genSalt(10);
@@ -14,9 +14,11 @@ const registerController = async (req, res, next) => {
       email,
       password: hashedPassword,
       address,
+      role
     });
 
-    await user.save();
+   const result =  await user.save();
+    console.log({result})
 
     res.json({
       success: true,
@@ -36,6 +38,7 @@ const loginController = async (req, res, next) => {
     company: user.companyName,
     email: user.email,
     address: user.address,
+    role: user.role,
     access_token: token,
   });
 };

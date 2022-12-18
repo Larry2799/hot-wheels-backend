@@ -1,7 +1,6 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-const jwtDecode = require("jwt-decode");
 
 module.exports = {
   isUserExistsMiddleware: async (req, res, next) => {
@@ -45,8 +44,8 @@ module.exports = {
     }
   },
   verifyTokenMiddleware: (req, res, next) => {
-    const token = req.headers.authorization.split(" ")[1];
-    if (token === null) return res.sendStatus(401); // if there isn't any token
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) return res.sendStatus(401); // if there isn't any token
 
     jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
       if (err) return res.sendStatus(403);
